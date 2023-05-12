@@ -1,34 +1,41 @@
-import Transacao from '@/logic/core/financas/Transacao'
-import { useEffect, useState } from 'react'
-import transacoesFalsas from '../constants/TransacoesFalsas'
+import servicos from '@/logic/core';
+import Transacao from '@/logic/core/financas/Transacao';
+import { useContext, useEffect, useState } from 'react';
+import AutenticacaoContext from '../contexts/AutenticacaoContext';
 
 export default function useTransacoes() {
+    const { usuario } = useContext(AutenticacaoContext)
     const [transacoes, setTransacoes] = useState<Transacao[]>([])
     const [transacao, setTransacao] = useState<Transacao | null>(null)
 
-    useEffect(buscarTransacoes, [])
+    useEffect(() => {
+        buscarTransacoes()
+    }, [])
 
     // futuramente usada pelo firebase
-    function buscarTransacoes() {
-        setTransacoes(transacoesFalsas)
+    async function buscarTransacoes() {
+        if(!usuario) return;
+
+        const getTransacoes = await servicos.financas.consultar(usuario);
+        setTransacoes(getTransacoes)
     }
 
-    function salvar(transacao: Transacao) {
-        const outras = transacoes.filter(t => t.id !== transacao.id)
+    async function salvar(transacao: Transacao) {
 
-        setTransacoes([
-            ...outras,
-            { ...transacao, id: transacao.id ?? crypto.randomUUID() },
-        ])
-
+        if (!usuario) return;
+        // salvando no firebase a transação feita
+        await servicos.financas.salvar(transacao, usuario)
         setTransacao(null)
+
+        // atualizando lista de transações
+        await buscarTransacoes()
     }
-
-    function excluir(transacao: Transacao) {
-        const outras = transacoes.filter(t => t.id !== transacao.id)
-
-        setTransacoes(outras)
+    
+    async function excluir(transacao: Transacao) {
+        if(!usuario) return;
+        await servicos.financas.excluir(transacao, usuario)
         setTransacao(null)
+        await buscarTransacoes()
     }
 
     function selecionar(transacao: Transacao) {
