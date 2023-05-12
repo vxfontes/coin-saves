@@ -1,6 +1,6 @@
 import servicos from '@/logic/core';
 import Transacao from '@/logic/core/financas/Transacao';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import AutenticacaoContext from '../contexts/AutenticacaoContext';
 
 export default function useTransacoes() {
@@ -8,17 +8,17 @@ export default function useTransacoes() {
     const [transacoes, setTransacoes] = useState<Transacao[]>([])
     const [transacao, setTransacao] = useState<Transacao | null>(null)
 
+    // função depende do usuario, então essa função so muda se o usuario mudar (callback)
+    const buscarTransacoes = useCallback(async function () {
+        if (!usuario) return
+        const transacoes = await servicos.financas.consultar(usuario)
+        setTransacoes(transacoes)
+    }, [usuario])
+
+    // consertando useeffect
     useEffect(() => {
         buscarTransacoes()
-    }, [])
-
-    // futuramente usada pelo firebase
-    async function buscarTransacoes() {
-        if(!usuario) return;
-
-        const getTransacoes = await servicos.financas.consultar(usuario);
-        setTransacoes(getTransacoes)
-    }
+    }, [buscarTransacoes])
 
     async function salvar(transacao: Transacao) {
 
@@ -30,9 +30,9 @@ export default function useTransacoes() {
         // atualizando lista de transações
         await buscarTransacoes()
     }
-    
+
     async function excluir(transacao: Transacao) {
-        if(!usuario) return;
+        if (!usuario) return;
         await servicos.financas.excluir(transacao, usuario)
         setTransacao(null)
         await buscarTransacoes()
