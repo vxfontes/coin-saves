@@ -11,3 +11,4 @@ logout()
 esta carregando pois ainda nao sabe se existe um usuario
 
 - contexto é utilizado sempre que queremos compartilhar informações no estado global da aplicacao
+- para acessar nosso contexto, usamos a tag useContext, onde faremos tambem o login
