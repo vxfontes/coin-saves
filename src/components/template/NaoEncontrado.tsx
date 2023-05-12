@@ -1,10 +1,7 @@
+import { ChildrenProps } from "@/logic/core/children";
 import { IconCircleX } from "@tabler/icons-react";
 
-interface NaoEncontradoProps {
-    children: React.ReactNode
-}
-
-export default function NaoEncontrado(props: NaoEncontradoProps) {
+export default function NaoEncontrado(props: ChildrenProps) {
     return (
         <div className={`
             flex flex-col items-center rounded-lg
