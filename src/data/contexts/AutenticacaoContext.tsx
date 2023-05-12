@@ -22,9 +22,12 @@ const AutenticacaoContext = createContext<AutenticacaoProps>({
 export default AutenticacaoContext;
 
 
-// criaremos agora o contexto que sera uma tag que recebera as informacoes que queremos, envolvendo todo nosso componente
-// envolveremos no componente pai, no nosso caso, sera o app.tsx
-{/* <AutenticacaoContext.Provider value={{...}} */}
+/**
+ * criaremos agora o contexto que sera uma tag que recebera as informacoes que queremos, envolvendo todo nosso componente
+    envolveremos no componente pai, no nosso caso, sera o app.tsx
+ * @param props 
+ * @returns <AutenticacaoContext.Provider value={{...}} 
+ */
 export function AutenticacaoProvider (props: ChildrenProps) {
     const [carregando, setcarregando] = useState(true);
     const [usuario, setUsuario] = useState<Usuario | null>(null);
