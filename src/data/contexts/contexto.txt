@@ -1,0 +1,13 @@
+vamos criar um contexto para representar o estado e as funcionalidades que queremos compartilhar com nossa aplicação
+
+exemplo: eventualmente posso querer autenticar o usuario em alguma pagina diferente ou fazer logout em alguma pagina diferente
+
+
+carregando = true,
+usuario = null
+loginGoogle()
+logout()
+
+esta carregando pois ainda nao sabe se existe um usuario
+
+- contexto é utilizado sempre que queremos compartilhar informações no estado global da aplicacao

@@ -65,4 +65,4 @@ class Autenticacao {
 
 }
 
-export default Autenticacao;
+export default new Autenticacao();
