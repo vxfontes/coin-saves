@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import transacoesFalsas from '../constants/TransacoesFalsas'
 
 export default function useTransacoes() {
-    const [transacoes, setTransacoes] = useState<Transacao[]>(transacoesFalsas)
+    const [transacoes, setTransacoes] = useState<Transacao[]>([])
     const [transacao, setTransacao] = useState<Transacao | null>(null)
 
     useEffect(buscarTransacoes, [])
