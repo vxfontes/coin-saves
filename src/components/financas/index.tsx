@@ -1,34 +1,19 @@
-import transacoesFalsas from "@/data/constants/TransacoesFalsas";
-import Transacao, { transacaoVazia } from "@/logic/core/financas/Transacao";
+import useTransacoes from "@/data/hooks/useFinancas";
+import { transacaoVazia } from "@/logic/core/financas/Transacao";
 import { IconPlus } from '@tabler/icons-react';
-import { useState } from "react";
 import Cabecalho from "../template/Cabecalho";
 import Conteudo from "../template/Conteudo";
+import NaoEncontrado from "../template/NaoEncontrado";
 import Formulario from "./Formulario";
 import Lista from "./Lista";
 import Resumo from "./Resumo";
 
 const Financas = () => {
-    const [transacoes, setTransacoes] = useState<Transacao[]>(transacoesFalsas);
-    const [transacao, setTransacao] = useState<Transacao | null>(null);
+    // hook personalizada
+    const {
+        transacoes, transacao, selecionar, salvar, excluir, cancelar
+    } = useTransacoes()
 
-    function Salvar(transacao: Transacao) {
-        const outras = transacoes.filter(t => t.id !== transacao.id)
-
-        setTransacoes([
-            ...outras,
-            {...transacao, id: transacao.id ?? crypto.randomUUID()},
-        ])
-
-        setTransacao(null)
-    }
-
-    function Excluir(transacao: Transacao) {
-        const outras = transacoes.filter(t => t.id !== transacao.id)
-
-        setTransacoes(outras)
-        setTransacao(null)
-    }
 
     return (
         <div>
@@ -39,7 +24,7 @@ const Financas = () => {
                 <div>
                     <button
                         className='btn bg-blue-500'
-                        onClick={() => setTransacao(transacaoVazia)}
+                        onClick={() => selecionar(transacaoVazia)}
                     >
                         <IconPlus />
                         <span>Nova Transação</span>
@@ -48,12 +33,21 @@ const Financas = () => {
 
                 
                 {transacao ? (
-                    <Formulario transacao={transacao}
-                        cancelar={() => setTransacao(null)}
-                        salvar={Salvar} 
-                        excluir={Excluir}/>
+                    <Formulario
+                        transacao={transacao}
+                        salvar={salvar}
+                        excluir={excluir}
+                        cancelar={cancelar}
+                    />
+                ) : transacoes.length ? (
+                    <Lista
+                        transacoes={transacoes}
+                        selecionarTransacao={selecionar}
+                    />
                 ) : (
-                    <Lista transacoes={transacoes} selecionarTransacao={setTransacao} />
+                    <NaoEncontrado>
+                        Nenhuma transação encontrada.
+                    </NaoEncontrado>
                 )}
             </Conteudo>
         </div>
