@@ -1,3 +1,4 @@
+import servicos from "@/logic/core"
 import { ChildrenProps } from "@/logic/core/children"
 import Usuario from "@/logic/core/usuario/Usuario"
 import Autenticacao from "@/logic/firebase/auth/Autenticacao"
@@ -9,6 +10,7 @@ interface AutenticacaoProps {
     usuario: Usuario | null
     loginGoogle: () => Promise<Usuario | null>
     logout: () => Promise<void>
+    atualizarUsuario: (novoUsuario: Usuario) => Promise<void>
 }
 
 // criando contexto no estado inicial, inclusive carregando para verificar a autenticacao
@@ -17,6 +19,7 @@ const AutenticacaoContext = createContext<AutenticacaoProps>({
     usuario: null,
     loginGoogle: async () => null,
     logout: async () => {},
+    atualizarUsuario: async () => {}
 })
 
 export default AutenticacaoContext;
@@ -56,10 +59,19 @@ export function AutenticacaoProvider (props: ChildrenProps) {
         setUsuario(null)
     }
 
+    async function atualizarUsuario(novoUsuario: Usuario) {
+        if (usuario && usuario.email !== novoUsuario.email) return logout()
+        if (usuario && novoUsuario && usuario.email === novoUsuario.email) {
+            await servicos.usuario.salvar(novoUsuario)
+            setUsuario(novoUsuario)
+        }
+    }
+
     return (
         <AutenticacaoContext.Provider value={{
             carregando,
             loginGoogle,
+            atualizarUsuario,
             usuario,
             logout
         }}>
