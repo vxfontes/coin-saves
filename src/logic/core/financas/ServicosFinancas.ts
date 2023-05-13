@@ -58,7 +58,7 @@ class ServicosFinancas {
         return await this._colecao.consultarComFiltros(caminho, [
             { atributo: 'data', op: ">=", valor: Data.primeiroDia(data) },
             { atributo: 'data', op: "<=", valor: Data.ultimoDia(data) },
-        ])
+        ], 'data', 'desc')
     }
 }
 
