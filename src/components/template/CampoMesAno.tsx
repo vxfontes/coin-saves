@@ -77,7 +77,7 @@ export default function CampoMesAno(props: CampoMesAnoProps) {
                                 <Button
                                     key={i}
                                     color={selecionada ? 'cyan' : 'blue'}
-                                    className={`${selecionada ? 'bg-cyan-600' : 'bg-blue-500'}`}
+                                    className={`${selecionada ? 'bg-blue-900' : 'bg-blue-500'}`}
                                     onClick={() => alterarMes(i)}
                                 >{mes}</Button>
                             )
