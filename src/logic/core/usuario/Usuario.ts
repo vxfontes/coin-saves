@@ -3,4 +3,6 @@ export default interface Usuario {
     nome: string
     email: string
     avatar: string
+    cpf?: string
+    telefone?: string
 }
