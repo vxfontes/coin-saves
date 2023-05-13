@@ -1,5 +1,6 @@
-interface ConteudoProps {
-    children: any
+import { ChildrenProps } from "@/logic/core/children"
+
+interface ConteudoProps extends ChildrenProps {
     className?: string
 }
 

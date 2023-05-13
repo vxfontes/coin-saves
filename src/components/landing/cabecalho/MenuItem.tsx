@@ -1,7 +1,7 @@
+import { ChildrenProps } from "@/logic/core/children"
 import Link from "next/link"
 
-interface MenuItemProps {
-    children: any
+interface MenuItemProps extends ChildrenProps {
     onClick?: () => void
     url?: string
     className?: string

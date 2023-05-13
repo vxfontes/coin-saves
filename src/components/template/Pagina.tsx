@@ -1,6 +1,7 @@
-interface PaginaProps {
+import { ChildrenProps } from "@/logic/core/children";
+
+interface PaginaProps extends ChildrenProps {
     externa?: boolean;
-    children: React.ReactNode;
     className?: string;
 }
 
