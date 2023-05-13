@@ -1,4 +1,5 @@
 import Colecao from "@/logic/firebase/db/Colecao";
+import Data from "@/logic/utils/Data";
 import Usuario from "../usuario/Usuario";
 import Transacao from "./Transacao";
 
@@ -17,6 +18,7 @@ class ServicosFinancas {
             transacao
         )
     }
+ 
     
     /**
      * 
@@ -31,6 +33,7 @@ class ServicosFinancas {
         )
     }
 
+
     /**
      * 
      * @param usuario usuario que desejamos consultas
@@ -41,6 +44,21 @@ class ServicosFinancas {
             `financas/${usuario.email}/transacoes`,
             'data', 'desc'
         )
+    }
+
+
+    /**
+     * 
+     * @param usuario usuario que desejamos consultas
+     * @param data data que ocorreu
+     * @returns transações de um usuario ordenadas e por mês
+     */
+    async consultarPorMes(usuario: Usuario, data: Date) {
+        const caminho = `financas/${usuario.email}/transacoes`
+        return await this._colecao.consultarComFiltros(caminho, [
+            { atributo: 'data', op: ">=", valor: Data.primeiroDia(data) },
+            { atributo: 'data', op: "<=", valor: Data.ultimoDia(data) },
+        ])
     }
 }
 
