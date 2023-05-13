@@ -1,0 +1,27 @@
+{
+    "hosting": {
+        "site": "getmymoney",
+        "public": "out",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "frameworksBackend": {
+            "region": "us-central1"
+        }
+    },
+    "emulators": {
+        "functions": {
+            "port": 5001
+        },
+        "ui": {
+            "enabled": true
+        }
+    },
+    "frameworks": {
+        "nextjs": {
+            "debug": true
+        }
+    }
+}
