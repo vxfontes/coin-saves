@@ -35,12 +35,9 @@ export function AutenticacaoProvider (props: ChildrenProps) {
     const [carregando, setcarregando] = useState(true);
     const [usuario, setUsuario] = useState<Usuario | null>(null);
 
-    // recebe nossas classes com funcoes do firebase
-    const autenticacao = Autenticacao;
-
     // precisamos que na inicializacao da classe, busquemos o usuario na nossa aplicação
     useEffect(() => {
-        const cancelar = autenticacao.monitorar(function (usuario) {
+        const cancelar = servicos.usuario.monitorarAutenticacao(function (usuario) {
             setUsuario(usuario)
             setcarregando(false) // caso tenha encontrado um usuario, a aplicação deve parar de carregar
         })
@@ -49,13 +46,13 @@ export function AutenticacaoProvider (props: ChildrenProps) {
 
     async function loginGoogle(): Promise<Usuario | null> {
         // esperar a função realizar seu trabalho e retornar o usuario que pedimos
-        const user = await autenticacao.loginGoogle()
+        const user = await servicos.usuario.loginGoogle()
         setUsuario(user)
         return user
     }
 
     async function logout(): Promise<void> {
-        await autenticacao.logout()
+        await servicos.usuario.logout()
         setUsuario(null)
     }
 
