@@ -10,13 +10,13 @@ const Menu = () => {
 
     return (
         <div className="flex gap-2">
-            <MenuItem className="hidden sm:flex">
+            <MenuItem url="#inicio" className="hidden sm:flex">
                 Início
             </MenuItem>
-            <MenuItem className="hidden sm:flex">
+            <MenuItem url="#vantagens" className="hidden sm:flex">
                 Vantagens
             </MenuItem>
-            <MenuItem className="hidden sm:flex">
+            <MenuItem url="#depoimentos" className="hidden sm:flex">
                 Depoimentos
             </MenuItem>
             <MenuItem
