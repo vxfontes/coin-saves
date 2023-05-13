@@ -1,5 +1,5 @@
-import Autenticacao from "../firebase/auth/Autenticacao";
 import ServicosFinancas from "./financas/ServicosFinancas";
+import ServicosUsuario from "./usuario/ServicosUsuario";
 
 /**
  * classe responsavel por exibir todas as classe que fazem algo em nossa aplicação
@@ -7,7 +7,7 @@ import ServicosFinancas from "./financas/ServicosFinancas";
  */
 class Servicos {
     get financas() { return ServicosFinancas }
-    get autenticacao() { return Autenticacao }
+    get usuario() { return ServicosUsuario }
 }
 
 const servicos = new Servicos()
