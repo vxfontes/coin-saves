@@ -6,6 +6,12 @@ class ServicosUsuario {
     private _autenticacao = Autenticacao;
     private _colecao = Colecao
 
+
+    /**
+     * o usuario mais atual também terá informações extras, queremos elas
+     * @param observador função do tipo monitorarusuario
+     * @returns trara o usuario mais atual
+     */
     monitorarAutenticacao(observador: MonitorarUsuario): CancelarMonitoramento {
         return this._autenticacao.monitorar(async usuario => {
             observador(usuario ? {
@@ -14,6 +20,7 @@ class ServicosUsuario {
             } : null)
         })
     }
+
 
     /**
      * salvar usuario no banco na primeira vez que ele finalizar o login
@@ -29,6 +36,7 @@ class ServicosUsuario {
 
         return { ...usuario, ...usuarioDoBanco }
     }
+
 
     logout(): Promise<void> {
         return this._autenticacao.logout()
