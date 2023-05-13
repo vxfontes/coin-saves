@@ -3,22 +3,26 @@ import Transacao from '@/logic/core/financas/Transacao';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import AutenticacaoContext from '../contexts/AutenticacaoContext';
 
+export type TipoExibicao = "lista" | "grade"
+
 export default function useTransacoes() {
     const { usuario } = useContext(AutenticacaoContext)
+    const [data, setData] = useState<Date>(new Date())
+    const [tipoExibicao, setTipoExibicao] = useState<TipoExibicao>("lista") 
     const [transacoes, setTransacoes] = useState<Transacao[]>([])
     const [transacao, setTransacao] = useState<Transacao | null>(null)
 
     // função depende do usuario, então essa função so muda se o usuario mudar (callback)
     const buscarTransacoes = useCallback(async function () {
-        if (!usuario) return
-        const transacoes = await servicos.financas.consultar(usuario)
+        if(!usuario) return
+        const transacoes = await servicos.financas.consultarPorMes(usuario, data)
         setTransacoes(transacoes)
-    }, [usuario])
+    }, [usuario, data])
 
     // consertando useeffect
     useEffect(() => {
         buscarTransacoes()
-    }, [buscarTransacoes])
+    }, [buscarTransacoes, data])
 
     async function salvar(transacao: Transacao) {
 
@@ -47,11 +51,15 @@ export default function useTransacoes() {
     }
 
     return {
+        data,
+        tipoExibicao,
         transacoes,
         transacao,
         salvar,
         excluir,
         selecionar,
         cancelar,
+        alterarData: setData,
+        alterarExibicao: setTipoExibicao
     }
 }
