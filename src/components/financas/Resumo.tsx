@@ -29,19 +29,19 @@ export default function Resumo(props: ResumoProps) {
                 titulo='Receitas'
                 valor={receitas}
                 icone={<IconCash />}
-                iconeClassName="text-green-500"
+                iconeClassName={`text-green-500 w-10 sm:w-12`}
             />
             <ResumoItem
                 titulo='Despesas'
                 valor={despesas}
                 icone={<IconCreditCard />}
-                iconeClassName="text-red-500"
-            />
+                iconeClassName={`text-red-500 w-10 sm:w-12`}
+                />
             <ResumoItem
                 titulo='Total'
                 valor={total}
                 icone={<IconArrowsDoubleSwNe />}
-                iconeClassName="text-yellow-500"
+                iconeClassName={`text-yellow-500 w-10 sm:w-12`}
                 valorClassName={total > 0 ? 'text-green-500' : total < 0 ? 'text-red-500' : ''}
             />
         </div>
