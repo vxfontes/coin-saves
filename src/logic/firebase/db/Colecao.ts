@@ -18,9 +18,9 @@ class Colecao {
      * @param entidade objeto que desejo salvar
      * @returns retorna a entidade e o id
      */
-    async salvar(caminho: string, entidade: any): Promise<any> {
+    async salvar(caminho: string, entidade: any, id?: string): Promise<any> {
         const db = getFirestore(app)
-        const idFinal = entidade.id ?? crypto.randomUUID()
+        const idFinal = id ?? entidade.id ?? crypto.randomUUID()
         const docRef = doc(db, caminho, idFinal)
         await setDoc(docRef, entidade)
 
