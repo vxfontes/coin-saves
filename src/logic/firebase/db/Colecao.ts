@@ -1,8 +1,14 @@
 import { app } from "../config/app"
 import {
     collection, deleteDoc, doc, DocumentData, DocumentSnapshot, getDoc, getDocs, getFirestore, orderBy,
-    OrderByDirection, query, QueryConstraint, setDoc
-} from 'firebase/firestore'
+    OrderByDirection, query, QueryConstraint, setDoc, where, WhereFilterOp
+} from 'firebase/firestore';
+
+export interface Filtro {
+    atributo: string
+    op: WhereFilterOp // opções de filtros
+    valor: any
+}
 
 class Colecao {
 
@@ -63,6 +69,43 @@ class Colecao {
         const resultado = await getDocs(consulta)
 
         // retornando transações formatadas corretamente
+        return resultado.docs.map(this._converterDoFirebase) ?? []
+    }
+
+
+    
+    /**
+     * consultar determinado documento
+     * @param caminho caminho de onde o documento esta
+     * @param id id do documento
+     * @returns receber o documento convertido
+     */
+    async consultarPorId(caminho: string, id: string): Promise<any> {
+        if (!id) return null
+        const db = getFirestore(app)
+        const docRef = doc(db, caminho, id)
+        const resultado = await getDoc(docRef)
+        return this._converterDoFirebase(resultado)
+    }
+
+
+    /**
+     * 
+     * @param caminho caminho de onde estão as transações do usuario
+     * @param filtros conjunto de filtros
+     * @param ordenarPor o atributo que desejo ordenar, ex: data
+     * @param direcao decrescente (desc) ou crescente(asc)
+     * @returns transações de certo usuário devidamente formatadas
+     */
+    async consultarComFiltros(caminho: string, filtros: Filtro[], ordenarPor?: string, direcao?: OrderByDirection): Promise<any[]> {
+        const db = getFirestore(app)
+        const colecaoRef = collection(db, caminho)
+
+        const filtrosWhere = filtros?.map(f => where(f.atributo, f.op, f.valor)) ?? []
+        const ordenacao = ordenarPor ? [orderBy(ordenarPor, direcao)] : []
+
+        const consulta = query(colecaoRef, ...filtrosWhere, ...ordenacao)
+        const resultado = await getDocs(consulta)
         return resultado.docs.map(this._converterDoFirebase) ?? []
     }
 
