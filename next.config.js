@@ -4,6 +4,7 @@ const nextConfig = {
   
   // para baixar imagens ou referencia-las
   images: {
+    unoptimized: true,
     domains: [
       'source.unsplash.com',
       'images.unsplash.com',
