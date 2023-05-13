@@ -1,12 +1,14 @@
-interface AreaProps {
-    children: any
+import { ChildrenProps } from "@/logic/core/children"
+
+interface AreaProps extends ChildrenProps {
     className?: string
+    id?: string
 }
 
 // limitando a pagina para que ela tenha um tamanho maximo de 1200px
 export default function Area(props: AreaProps) {
     return (
-        <div className={`
+        <div id={props.id ?? ''} className={`
             flex justify-center w-full
             ${props.className ?? ''}
         `}>

@@ -7,7 +7,7 @@ import ImagemResponsiva from "../comum/ImagemResponsiva";
 // o pt-20 empurra o rodape para baixo, ficando sempre no footer da pagina
 export default function Destaque() {
     return (
-        <Area className="pt-20">
+        <Area id="inicio" className="pt-20">
             <div className={`
                 flex items-center justify-around
                 h-[500px]
