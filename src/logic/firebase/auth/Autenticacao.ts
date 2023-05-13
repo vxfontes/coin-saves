@@ -15,12 +15,15 @@ class Autenticacao {
         this._auth = getAuth(app)
     }
 
-    // funcao assincrona (por isso retorna um promise) que retorna ou um usuario ou nada
+    /**
+     * funcao assincrona (por isso retorna um promise)
+     * @returns retorna ou um usuario ou nada
+     */
     async loginGoogle(): Promise<Usuario | null> {
         // fara a autenticacao do google em um popup e passaremos a nossa autenticacao e quem sera o provedor, utilizando 
         // uma classe feita para isso
         const resposta = await signInWithPopup(this._auth, new GoogleAuthProvider());
-
+        // pega o usuario autenticado e o idToken e o nome e o email e o foto e o id e o email e o nome e o id  
         // se a resposta for bem concedida, recebemos um usuario da resposta e ja o convertemos
         return this.converterParaUsuario(resposta.user)
     }
@@ -31,13 +34,11 @@ class Autenticacao {
         await signOut(this._auth)
     }
 
-
-    // monitoramento - precisamos observar o usuario para notificar a aplicacao caso haja alguma coisa
-    // na autenticação (login ou reload automatico)
-    // teremos uma funcao que recebe uma funcao como parametro e retorna uma funcao void
-
-    // notificar: nome da funcao e monitorarusuaio: tipo da funcao que sera parametro
-    // cancelarmonitoramento: retorno da funcao
+    /**
+     * precisamos observar o usuario para notificar a aplicacao caso haja alguma coisa na autenticação (login ou reload automatico)
+     * @param notificar notificar: nome da funcao e monitorarusuaio: tipo da funcao que sera parametro
+     * @returns uma funcao void -> cancelarmonitoramento: retorno da funcao
+     */
     monitorar(notificar: MonitorarUsuario): CancelarMonitoramento {
 
         // se o usuario estiver disponivel / existir, entao retornaremos um usuario
@@ -47,7 +48,12 @@ class Autenticacao {
         })
     }
 
-    // funcao que converterá o usuario firebase para o usuario que criamos na interface
+
+    /**
+     * converterá o usuario firebase para o usuario que criamos na interface
+     * @param usuarioFirebase usuario recebido do firebase
+     * @returns usuario que criamos a interface
+     */
     private converterParaUsuario(usuarioFirebase: User | null): Usuario | null {
 
         // se existir um usuario e se ele tiver email
@@ -59,7 +65,8 @@ class Autenticacao {
         return {
             id: usuarioFirebase.uid,
             nome: usuarioFirebase.displayName ?? nomeAlternativo,
-            email: usuarioFirebase.email
+            email: usuarioFirebase.email,
+            avatar: usuarioFirebase.photoURL ?? 'https://source.unsplash.com/random/100x100/?abstract'
         }
     }
 
