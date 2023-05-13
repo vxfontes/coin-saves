@@ -1,18 +1,51 @@
-import useTransacoes from "@/data/hooks/useFinancas";
+import useTransacoes, { TipoExibicao } from "@/data/hooks/useFinancas";
 import { transacaoVazia } from "@/logic/core/financas/Transacao";
-import { IconPlus } from '@tabler/icons-react';
+import { Button, SegmentedControl } from "@mantine/core";
+import { IconLayoutGrid, IconList, IconPlus } from '@tabler/icons-react';
 import Cabecalho from "../template/Cabecalho";
+import CampoMesAno from "../template/CampoMesAno";
 import Conteudo from "../template/Conteudo";
 import NaoEncontrado from "../template/NaoEncontrado";
 import Formulario from "./Formulario";
+import Grade from "./Grade";
 import Lista from "./Lista";
 import Resumo from "./Resumo";
 
 const Financas = () => {
     // hook personalizada
     const {
-        transacoes, transacao, selecionar, salvar, excluir, cancelar
-    } = useTransacoes()
+        transacoes, transacao, selecionar, salvar, excluir, cancelar, data, alterarData, alterarExibicao, tipoExibicao
+    } = useTransacoes();
+
+
+    function renderizarControles() {
+        return (
+            <div className="flex justify-between">
+                <CampoMesAno
+                    data={data}
+                    dataMudou={alterarData}
+                />
+                <div className="flex gap-5">
+                    <Button className="bg-blue-500" leftIcon={<IconPlus />} onClick={() => selecionar(transacaoVazia)}>
+                        Nova transação
+                        </Button>
+                    <SegmentedControl data={[
+                            { label: <IconList />, value: 'lista' },
+                            { label: <IconLayoutGrid />, value: 'grade' }
+                        ]}
+                        onChange={tipo => alterarExibicao(tipo as TipoExibicao)}
+                    />
+                </div>
+            </div>
+        )
+    }
+
+    function renderizarTransacoes() {
+        const props = { transacoes, selecionarTransacao: selecionar }
+        return tipoExibicao === 'lista' 
+            ? <Lista {...props} />
+            : <Grade {...props} />
+    }
 
 
     return (
@@ -21,16 +54,7 @@ const Financas = () => {
             <Conteudo className="gap-5">
                 <Resumo transacoes={transacoes} />
 
-                <div>
-                    <button
-                        className='btn bg-blue-500'
-                        onClick={() => selecionar(transacaoVazia)}
-                    >
-                        <IconPlus />
-                        <span>Nova Transação</span>
-                    </button>
-                </div>
-
+                {renderizarControles()}
                 
                 {transacao ? (
                     <Formulario
@@ -40,10 +64,7 @@ const Financas = () => {
                         cancelar={cancelar}
                     />
                 ) : transacoes.length ? (
-                    <Lista
-                        transacoes={transacoes}
-                        selecionarTransacao={selecionar}
-                    />
+                    renderizarTransacoes()
                 ) : (
                     <NaoEncontrado>
                         Nenhuma transação encontrada.
