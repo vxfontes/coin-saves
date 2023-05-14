@@ -1,6 +1,6 @@
 {
     "hosting": {
-        "site": "coinsave",
+        "site": "coinsaves",
         "public": "out",
         "ignore": [
             "firebase.json",

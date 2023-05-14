@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <Head>
                 <link rel="icon" href="/money-bag.png" />
                 <link rel="apple-touch-icon" href="/money-bag.png" />
-                <title>Coin Save</title>
+                <title>Coin Saves</title>
             </Head>
             <AutenticacaoProvider>
                 <Component {...pageProps} />
