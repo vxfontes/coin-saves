@@ -1,6 +1,6 @@
 {
     "hosting": {
-        "site": "getmymoney",
+        "site": "coinsave",
         "public": "out",
         "ignore": [
             "firebase.json",
