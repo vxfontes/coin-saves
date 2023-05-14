@@ -1,6 +1,6 @@
 import useFormulario from "@/data/hooks/useFormulario";
 import { TipoTransacao } from "@/logic/core/financas/TipoTransacao";
-import Transacao, { transacaoVazia } from "@/logic/core/financas/Transacao";
+import Transacao from "@/logic/core/financas/Transacao";
 import Dinheiro from "@/logic/utils/Dinheiro";
 import { Button, Group, Radio, TextInput } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
@@ -14,7 +14,7 @@ interface FormularioProps {
 }
 
 export default function Formulario(props: FormularioProps) {
-    const { alterarAtributo, dados } = useFormulario(transacaoVazia);
+    const { alterarAtributo, dados } = useFormulario(props.transacao);
 
     return (
         <div className={`
