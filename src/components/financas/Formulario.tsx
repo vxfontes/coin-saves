@@ -47,6 +47,8 @@ export default function Formulario(props: FormularioProps) {
                     <Group>
                         <Radio value={TipoTransacao.RECEITA} label="Receita" />
                         <Radio value={TipoTransacao.DESPESA} label="Despesa" />
+                        <Radio value={TipoTransacao.INVESTIMENTO} label="Investimento" />
+                        <Radio value={TipoTransacao.RESERVA} label="Reserva emergencial" />
                     </Group>
                 </Radio.Group>
             </div>

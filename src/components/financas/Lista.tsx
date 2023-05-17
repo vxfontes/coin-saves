@@ -1,7 +1,7 @@
 import Transacao from "@/logic/core/financas/Transacao";
 import Data from "@/logic/utils/Data";
 import Dinheiro from "@/logic/utils/Dinheiro";
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
+import { IconTrendingDown, IconTrendingUp, IconZoomMoney } from "@tabler/icons-react";
 
 interface ListaProps {
     transacoes: Transacao[]
@@ -16,11 +16,9 @@ export default function Lista(props: ListaProps) {
             <span className={`
                 flex justify-center items-center 
                 h-8 w-8 sm:w-10 sm:h-10 p-1.5 rounded-full
-                ${transacao.tipo === 'receita' ? 'bg-green-500' : 'bg-red-500'}
+                ${transacao.tipo === 'receita' ? 'bg-green-500' : transacao.tipo === 'despesa' ? 'bg-red-500' : 'bg-yellow-500'}
             `}>
-                {transacao.tipo === 'receita'
-                    ? <IconTrendingUp />
-                    : <IconTrendingDown />}
+                {transacao.tipo === 'receita' ? <IconTrendingUp /> : transacao.tipo === 'despesa' ? <IconTrendingDown /> : <IconZoomMoney />}
             </span>
         )
     }

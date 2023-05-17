@@ -14,7 +14,7 @@ import Resumo from "./Resumo";
 const Financas = () => {
     // hook personalizada
     const {
-        transacoes, transacao, selecionar, salvar, excluir, cancelar, data, alterarData, alterarExibicao, tipoExibicao
+        transacoes, transacao, transacoesInvest, selecionar, salvar, excluir, cancelar, data, alterarData, alterarExibicao, tipoExibicao
     } = useTransacoes();
 
 
@@ -56,7 +56,7 @@ const Financas = () => {
         <div>
             <Cabecalho />
             <Conteudo className="gap-5">
-                <Resumo transacoes={transacoes} />
+                <Resumo transacoes={transacoes} transacoesInvest={transacoesInvest} />
 
                 {renderizarControles()}
 

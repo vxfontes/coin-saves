@@ -10,13 +10,16 @@ export default function useTransacoes() {
     const [data, setData] = useState<Date>(new Date())
     const [tipoExibicao, setTipoExibicao] = useState<TipoExibicao>("lista") 
     const [transacoes, setTransacoes] = useState<Transacao[]>([])
+    const [transacoesInvest, setTransacoesInvest] = useState<Transacao[]>([])
     const [transacao, setTransacao] = useState<Transacao | null>(null)
 
     // função depende do usuario, então essa função so muda se o usuario mudar (callback)
     const buscarTransacoes = useCallback(async function () {
         if(!usuario) return
         const transacoes = await servicos.financas.consultarPorMes(usuario, data)
+        const transacoes2 = await servicos.financas.consultar(usuario)
         setTransacoes(transacoes)
+        setTransacoesInvest(transacoes2)
     }, [usuario, data])
 
     // consertando useeffect
@@ -55,6 +58,7 @@ export default function useTransacoes() {
         tipoExibicao,
         transacoes,
         transacao,
+        transacoesInvest,
         salvar,
         excluir,
         selecionar,

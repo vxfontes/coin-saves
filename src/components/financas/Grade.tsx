@@ -2,7 +2,7 @@ import { TipoTransacao } from "@/logic/core/financas/TipoTransacao"
 import Transacao from "@/logic/core/financas/Transacao"
 import Data from "@/logic/utils/Data"
 import Dinheiro from "@/logic/utils/Dinheiro"
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+import { IconMoneybag, IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
 
 interface GradeProps {
     transacoes: Transacao[]
@@ -12,7 +12,7 @@ interface GradeProps {
 export default function Grade(props: GradeProps) {
     function renderizarItem(transacao: Transacao) {
         return (
-            <div className={`
+            <div key={transacao.id} className={`
                 relative flex flex-col justify-between rounded-lg p-4 
                 text-white overflow-hidden h-24 cursor-pointer
             `} onClick={() => props.selecionarTransacao?.(transacao)}>
@@ -21,7 +21,9 @@ export default function Grade(props: GradeProps) {
                     bg-gradient-to-r opacity-60
                     ${transacao.tipo === TipoTransacao.RECEITA
                         ? 'from-teal-500 via-green-600 to-teal-700'
-                        : 'from-pink-500 via-red-600 to-pink-700'
+                        : transacao.tipo === TipoTransacao.DESPESA
+                            ? 'from-pink-500 via-red-600 to-pink-700'
+                            : 'from-yellow-300 via-yellow-600 to-yellow-700'
                     }
                 `}></div>
                 <div className="flex justify-between items-center">
@@ -39,8 +41,14 @@ export default function Grade(props: GradeProps) {
                         stroke={1}
                         className="absolute bottom-1 right-2 text-white opacity-10"
                     />
-                ) : (
+                ) : transacao.tipo === TipoTransacao.DESPESA ? (
                     <IconTrendingDown
+                        size={40}
+                        stroke={1}
+                        className="absolute bottom-1 right-2 text-white opacity-10"
+                    />
+                ) : (
+                    <IconMoneybag
                         size={40}
                         stroke={1}
                         className="absolute bottom-1 right-2 text-white opacity-10"
@@ -51,7 +59,7 @@ export default function Grade(props: GradeProps) {
     }
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-5">
+        <div key={crypto.randomUUID()} className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-5">
             {props.transacoes.map(renderizarItem)}
         </div>
     )
