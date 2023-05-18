@@ -1,7 +1,8 @@
-import { TipoTransacao } from '@/logic/core/financas/TipoTransacao'
-import Transacao from '@/logic/core/financas/Transacao'
-import { IconArrowsDoubleSwNe, IconCash, IconCreditCard, IconMoneybag, IconPigMoney } from '@tabler/icons-react'
-import ResumoItem from './ResumoItem'
+import { TipoTransacao } from '@/logic/core/financas/TipoTransacao';
+import Transacao from '@/logic/core/financas/Transacao';
+import { IconArrowsDoubleSwNe, IconCash, IconCreditCard, IconMoneybag, IconPigMoney } from '@tabler/icons-react';
+import React from 'react';
+import ResumoItem from './ResumoItem';
 
 interface ResumoProps {
     transacoes: Transacao[]
@@ -48,51 +49,74 @@ export default function Resumo(props: ResumoProps) {
         }
     };
 
+    const AllDataBaseValues = () => (
+        <>
+            <ResumoItem
+                titulo='Receitas'
+                valor={receitas}
+                icone={<IconCash />}
+                iconeClassName={`text-green-500 w-10 sm:w-12`}
+            />
+            <ResumoItem
+                titulo='Despesas'
+                valor={despesas}
+                icone={<IconCreditCard />}
+                iconeClassName={`text-red-500 w-10 sm:w-12`}
+            />
+            {investimentoTotal !== 0 && (
+                <ResumoItem
+                    titulo='Investimentos'
+                    valor={investimentoTotal}
+                    icone={<IconPigMoney />}
+                    iconeClassName={`text-yellow-500 w-10 sm:w-12`}
+                    valorClassName={'text-yellow-500'}
+                />
+            )}
+            {reservaTotal !== 0 && (
+                <ResumoItem
+                    titulo='Reserva de emergência'
+                    valor={reservaTotal}
+                    icone={<IconMoneybag />}
+                    iconeClassName={`text-yellow-500 w-10 sm:w-12`}
+                    valorClassName={'text-yellow-500'}
+                />
+            )}
+        </>
+    )
+
+    const TotalValue = () => (
+        <ResumoItem
+            titulo='Total'
+            valor={total}
+            icone={<IconArrowsDoubleSwNe />}
+            iconeClassName={`${total > 0 ? 'text-green-500' : total < 0 ? 'text-red-500' : ''} w-10 sm:w-12`}
+            valorClassName={total > 0 ? 'text-green-500' : total < 0 ? 'text-red-500' : ''}
+        />
+    )
+
     return (
         <>
-            <div className={`
-                grid grid-cols-1 ${verificarColunas()} gap-4
-            `}>
+            <div className={`${investimentoTotal === 0 && reservaTotal === 0 ? 'grid grid-cols-1 md:grid-cols-3 gap-4' : `grid gap-4`}`}>
 
-                <ResumoItem
-                    titulo='Receitas'
-                    valor={receitas}
-                    icone={<IconCash />}
-                    iconeClassName={`text-green-500 w-10 sm:w-12`}
-                />
-                <ResumoItem
-                    titulo='Despesas'
-                    valor={despesas}
-                    icone={<IconCreditCard />}
-                    iconeClassName={`text-red-500 w-10 sm:w-12`}
-                />
-                {investimentoTotal !== 0 && (
-                    <ResumoItem
-                        titulo='Investimentos'
-                        valor={investimentoTotal}
-                        icone={<IconPigMoney />}
-                        iconeClassName={`text-yellow-500 w-10 sm:w-12`}
-                        valorClassName={'text-yellow-500'}
-                    />
+                {investimentoTotal !== 0 || reservaTotal !== 0 ? (
+                    <>
+                        <div className={`
+                            ${verificarColunas()} grid gap-4 grid-cols-1
+                        `}>
+                            <AllDataBaseValues />
+                        </div>
+
+                        <div className="col-span-1">
+                            <TotalValue />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <AllDataBaseValues />
+                        <TotalValue />
+                    </>
                 )}
-                {reservaTotal !== 0 && (
-                    <ResumoItem
-                        titulo='Reserva de emergência'
-                        valor={reservaTotal}
-                        icone={<IconMoneybag />}
-                        iconeClassName={`text-yellow-500 w-10 sm:w-12`}
-                        valorClassName={'text-yellow-500'}
-                    />
-                )}
-            </div>
-            <div className="md:col-span-1">
-                <ResumoItem
-                    titulo='Total'
-                    valor={total}
-                    icone={<IconArrowsDoubleSwNe />}
-                    iconeClassName={`text-yellow-500 w-10 sm:w-12`}
-                    valorClassName={total > 0 ? 'text-green-500' : total < 0 ? 'text-red-500' : ''}
-                />
+
             </div>
         </>
     )
