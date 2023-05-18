@@ -52,7 +52,7 @@ export default function Formulario(props: FormularioProps) {
                     </Group>
                 </Radio.Group>
             </div>
-            <div className="flex px-4 sm:px-7 py-4 gap-3 bg-zinc-800">
+            <div className="flex px-1 md:px-7 py-4 gap-1 md:gap-4 bg-zinc-800">
                 <Button className="bg-green-500" color="green" onClick={() => props.salvar?.(dados)}><IconCheck />Salvar</Button>
                 <Button className="bg-zinc-500" color="gray" onClick={props.cancelar}><IconX />Voltar</Button>
                 <span className="flex-1"></span>
